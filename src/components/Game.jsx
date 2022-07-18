@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase/firebase-config';
 
 const Game = () => {
 
     const [value, setValue] = useState('');
+    const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     fetch('/hello').then(res => res.json()).then((res) => {
-    //         console.log(res);
-    //         setValue(res.message);
-    //     })
-    // }, [])
+    useEffect(() => {
+        if (!auth.currentUser) {
+            console.log('User not authenticated');
+            navigate('/login');
+        } else {
+            console.log('User authenticated');
+        }
+    }, [])
 
     return (
         <>

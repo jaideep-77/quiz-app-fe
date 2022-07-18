@@ -1,10 +1,8 @@
-const { Navigate } = require("react-router-dom")
+const { useNavigate } = require("react-router-dom")
 
-const Protected = ({ authenicated, children }) => {
-    if (!authenicated) {
-        alert('Not authenticated. You will be returned to home page.');
-        return <Navigate to='/' />
-    }
+const Protected = ({ children }) => {
+
+    const navigate = useNavigate();
 
     return children;
 }

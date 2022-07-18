@@ -1,10 +1,30 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase/firebase-config';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Home = () => {
 
-    if (!auth.currentUser) {
+    const navigate = useNavigate();
+    const [user, loading, error] = useAuthState(auth);
+
+    if (loading) {
+        return (<>
+            Loading...
+        </>)
+    }
+
+    if (error) {
+        alert('Error occured. Redirecting to home page');
+        console.log(error.message);
+        navigate('/');
+    }
+
+    if (user === null) {
+        // set a token or something in local storage.
+        // Then use that as authentication method for other componenets rather than using useAuthState hook over and over again.
         return (
             <>
                 <div className='flex flex-col items-center bg-gradient-to-b from-indigo-600 to-indigo-300 h-screen w-full pt-10 mx-auto'>
@@ -24,7 +44,7 @@ const Home = () => {
     } else {
         return (
             <>
-                <div className='flex justify-center bg-gradient-to-b from-indigo-600 to-indigo-300 h-screen w-full pt-10 mx-auto'>
+                <div className='flex flex-col items-center bg-gradient-to-b from-indigo-600 to-indigo-300 h-screen w-full pt-10 mx-auto'>
                     <h1>
                         Welcome {auth.currentUser.displayName ? auth.currentUser.displayName : auth.currentUser.email}
                     </h1>
