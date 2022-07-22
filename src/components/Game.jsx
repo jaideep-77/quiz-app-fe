@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/firebase-config';
+import { Navbar } from '../components/Navbar';
 
-const Game = () => {
+const Game = ({ user }) => {
 
-    const [value, setValue] = useState('');
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!auth.currentUser) {
-            console.log('User not authenticated');
-            navigate('/login');
-        } else {
-            console.log('User authenticated');
-        }
-    }, [])
-
     return (
-        <>
-            <div className='text-3xl flex justify-center'>Game</div>
-            <div className='text-3xl flex justify-center'>Hi</div>
-        </>
+        <div className='flex flex-col'>
+            <Navbar className='mb-60'></Navbar>
+            <div className='text-xl'>Welcome {user?.displayName}</div>
+            <div className='text-xl'>Hi</div>
+        </div>
     )
 }
 

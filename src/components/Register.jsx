@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/firebase-config';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Register = () => {
     const [email, setEmail] = useState(null);
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [password2, setPassword2] = useState(null);
-
+    const [user, loading, error] = useAuthState(auth);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,9 +21,15 @@ const Register = () => {
             }
 
             try {
-                const data = await createUserWithEmailAndPassword(auth, email, password);
-                data.user.displayName = username;
-                <Navigate to='/login' />
+                await createUserWithEmailAndPassword(auth, email, password).catch((err) => {
+                    console.log(err);
+                });
+
+                await updateProfile(auth.currentUser, { displayName: username }).catch((err) => {
+                    console.log(err);
+                });
+                navigate('/login');
+
             } catch (error) {
                 console.log(error);
                 alert(error.message);

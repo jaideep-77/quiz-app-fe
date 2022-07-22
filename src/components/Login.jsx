@@ -35,7 +35,7 @@ const Login = () => {
                 <button className='border-2 bg-slate-600 text-white px-5 mt-4 hover:bg-slate-700' type='submit'>Login</button>
             </form>
         </>
-    )
+    );
 }
 
 export default Login
