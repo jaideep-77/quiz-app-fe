@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import Game from './components/Game';
+import Main from './components/Main';
 import Home from './components/Home';
 import Login from './components/Login';
 import NotFound from './components/NotFound';
@@ -14,14 +14,15 @@ function App() {
 
   return (
     <>
+
       <Routes>
         <Route exact path='/' element={<Home />} >
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />
         </Route>
-        <Route exact path='/game' element={
+        <Route exact path='/main' element={
           <Protected isLoggedIn={user}>
-            <Game user={user} />
+            <Main user={user} />
           </Protected>
         } />
         <Route path='*' element={<NotFound />} />

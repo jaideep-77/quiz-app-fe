@@ -18,7 +18,7 @@ const Login = () => {
             if (data) {
                 console.log(`${data.user.email} signed in`);
                 alert(`Welcome ${data.user.displayName ? data.user.displayName : data.user.email}`);
-                navigate('/game');
+                navigate('/main');
             }
         }
         catch (err) {
