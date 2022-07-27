@@ -1,17 +1,14 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import Main from './components/Dashboard';
 import Home from './components/Home';
 import Login from './components/Login';
-import NotFound from './components/NotFound';
 import Register from './components/Register';
 import Protected from './components/Protected';
-import Game from './components/Game';
 import { AuthProvider } from './Auth/AuthProvider';
 
 function App() {
 
   return (
-    <>
+    <div className='bg-gradient-to-b from-indigo-600 to-indigo-300 h-screen w-full'>
       <BrowserRouter>
         <AuthProvider>
           <Routes>
@@ -23,7 +20,7 @@ function App() {
           </Routes>
         </AuthProvider>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

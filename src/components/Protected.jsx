@@ -5,6 +5,7 @@ import AuthContext from "../Auth/AuthProvider";
 import Game from "./Game";
 import NotFound from "./NotFound";
 import Dashboard from "./Dashboard";
+import Navbar from "./Navbar";
 
 const Protected = () => {
 
@@ -18,12 +19,13 @@ const Protected = () => {
     }, [])
 
     return (
-        <>
+        <div>
+            <Navbar />
             <Routes>
                 <Route exact path='/dashboard' element={<Dashboard />} />
                 <Route exact path='/game' element={<Game />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
-        </>);
+        </div>);
 };
 export default Protected;

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Game() {
     return (
-        <div>
+        <div className='pt-[60px]'>
             <Link to='/dashboard'>Back to Dashboard</Link>
         </div>
     )

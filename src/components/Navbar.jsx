@@ -24,7 +24,7 @@ const Navbar = () => {
             {/* main menu */}
 
             <ul className='hidden md:flex space-x-5'>
-                <Link to='/main' className='hover:border-b-4 hover:border-pink-600 px-2'>Home</Link>
+                <Link to='/dashboard' className='hover:border-b-4 hover:border-pink-600 px-2'>Dashboard</Link>
                 <button className='hover:border-b-4 hover:border-pink-600 px-2' onClick={logout}>Logout</button>
             </ul>
 
@@ -35,22 +35,10 @@ const Navbar = () => {
             {/* phone menu */}
             <ul className={!nav ? 'hidden' : 'absolute top-0 left-0 w-full h-screen bg-[#0a192f] flex flex-col justify-center items-center'}>
                 <li className='py-6 text-4xl'>
-                    <a href="/"> Home </a>
+                    <a href="/dashboard"> Dashboard </a>
                 </li>
                 <li className='py-6 text-4xl'>
-                    <a href="/about"> About </a>
-                </li>
-                <li className='py-6 text-4xl'>
-                    <a href="/experience"> Experience </a>
-                </li>
-                <li className='py-6 text-4xl'>
-                    <a href="/skills"> Skills </a>
-                </li>
-                <li className='py-6 text-4xl'>
-                    <a href="/projects"> Projects </a>
-                </li>
-                <li className='py-6 text-4xl'>
-                    <a href="/contact"> Contact </a>
+                    <button onClick={logout}>Logout</button>
                 </li>
             </ul>
 
