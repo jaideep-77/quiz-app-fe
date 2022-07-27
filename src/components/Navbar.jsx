@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebase-config';
@@ -7,6 +7,7 @@ import { auth } from '../firebase/firebase-config';
 const Navbar = () => {
 
     const [nav, setNav] = useState(false);
+    const navigate = useNavigate();
     const handleClick = () => {
         setNav((prev) => { return (!prev) });
     }
@@ -15,6 +16,7 @@ const Navbar = () => {
         await signOut(auth).catch(err => {
             console.log(err);
         })
+        navigate('/');
     }
 
     return (

@@ -5,7 +5,7 @@ const NotFound = () => {
     return (
         <>
             <div className='flex justify-center text-3xl'>NotFound</div>
-            <Link to='/'> Home </Link>
+            <Link to='/dashboard'> Dashbaord </Link>
         </>
     )
 }
