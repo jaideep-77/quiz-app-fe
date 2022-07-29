@@ -20,7 +20,7 @@ const Navbar = () => {
     }
 
     return (
-        <div className='fixed w-full h-[40px] flex justify-end items-center px-4 text-gray-300'>
+        <div className='fixed w-full h-[40px] flex justify-end items-center px-16 text-gray-300'>
             {/* main menu */}
 
             <ul className='hidden md:flex space-x-5'>

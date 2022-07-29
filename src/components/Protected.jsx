@@ -19,7 +19,7 @@ const Protected = () => {
     }, [])
 
     return (
-        <div>
+        <div className="mx-10">
             <Navbar />
             <Routes>
                 <Route exact path='/dashboard' element={<Dashboard />} />
