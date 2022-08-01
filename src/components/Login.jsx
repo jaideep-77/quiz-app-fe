@@ -17,6 +17,7 @@ const Login = () => {
 
             if (data) {
                 console.log(`${data.user.email} signed in`);
+                data.user.getIdToken().then(token => localStorage.setItem('token', token));
                 alert(`Welcome ${data.user.displayName ? data.user.displayName : data.user.email}`);
                 navigate('/dashboard');
             }

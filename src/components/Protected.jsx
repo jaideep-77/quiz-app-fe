@@ -18,14 +18,15 @@ const Protected = () => {
         }
     }, [])
 
-    return (
-        <div className="mx-10">
-            <Navbar />
+    return (<>
+        <Navbar />
+        <div className="px-10">
             <Routes>
                 <Route exact path='/dashboard' element={<Dashboard />} />
                 <Route exact path='/game' element={<Game />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
-        </div>);
+        </div>
+    </>);
 };
 export default Protected;

@@ -13,6 +13,7 @@ const Navbar = () => {
     }
 
     const logout = async () => {
+        localStorage.setItem('token', '');
         await signOut(auth).catch(err => {
             console.log(err);
         })
@@ -20,7 +21,7 @@ const Navbar = () => {
     }
 
     return (
-        <div className='fixed w-full h-[40px] flex justify-end items-center px-16 text-gray-300'>
+        <div className='fixed w-full h-[40px] flex justify-end items-center pr-5 text-gray-300'>
             {/* main menu */}
 
             <ul className='hidden md:flex space-x-5'>
@@ -33,7 +34,7 @@ const Navbar = () => {
             </div>
 
             {/* phone menu */}
-            <ul className={!nav ? 'hidden' : 'absolute top-0 left-0 w-full h-screen bg-[#0a192f] flex flex-col justify-center items-center'}>
+            <ul className={!nav ? 'hidden' : 'absolute top-0 left-0 w-full h-screen bg-[#335384] flex flex-col justify-center items-center'}>
                 <li className='py-6 text-4xl'>
                     <a href="/dashboard"> Dashboard </a>
                 </li>
