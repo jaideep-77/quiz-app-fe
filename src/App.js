@@ -8,7 +8,7 @@ import { AuthProvider } from './Auth/AuthProvider';
 function App() {
 
   return (
-    <div className='bg-gradient-to-b from-indigo-600 to-indigo-300 h-screen w-full'>
+    <div className='bg-gradient-to-b from-indigo-600 to-indigo-300 max-h-full min-h-screen w-full'>
       <BrowserRouter>
         <AuthProvider>
           <Routes>

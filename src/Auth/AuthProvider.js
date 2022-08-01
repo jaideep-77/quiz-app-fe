@@ -1,3 +1,4 @@
+import { signOut } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -26,5 +27,12 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
     );
 };
+
+export const Signout = async () => {
+    localStorage.setItem('token', '');
+    await signOut(auth).catch(err => {
+        console.log(err);
+    })
+}
 
 export default AuthContext;

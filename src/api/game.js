@@ -7,3 +7,11 @@ export const getTopics = (token) => {
         }
     });
 }
+
+export const getQuestions = (token, topic, difficulty) => {
+    return axios.get(`/game/questions?topic=${topic}&difficulty=${difficulty}`, {
+        headers: {
+            authorization: token
+        }
+    });
+}

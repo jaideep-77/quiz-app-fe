@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase/firebase-config';
+import { Signout } from '../Auth/AuthProvider';
 
 const Navbar = () => {
 
@@ -13,10 +12,7 @@ const Navbar = () => {
     }
 
     const logout = async () => {
-        localStorage.setItem('token', '');
-        await signOut(auth).catch(err => {
-            console.log(err);
-        })
+        await Signout();
         navigate('/');
     }
 

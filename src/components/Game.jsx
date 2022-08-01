@@ -1,11 +1,12 @@
 import { async } from '@firebase/util';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from './Spinner';
-import Flashcards from './Flashcards';
-import { getTopics } from '../api/game';
+import Flashcard from './Flashcard';
+import { getQuestions, getTopics } from '../api/game';
+import { Signout } from '../Auth/AuthProvider';
 
 function Game() {
 
@@ -15,28 +16,47 @@ function Game() {
     const [difficulty, setDifficulty] = useState('easy');
     const levels = ['easy', 'medium', 'hard'];
     const [game, setGame] = useState(false);
-    /* 
-        1 -> easy
-        2 -> medium
-        3 -> hard
-    */
+    const navigate = useNavigate();
 
     const fetchTopics = async () => {
         const res = await getTopics(localStorage.getItem('token'));
+        if (res.data.message) {
+            logout();
+        }
+        console.log(res);
         setTopics(res.data);
         setCurrentTopic(res.data[0].id);
+    }
+
+    const logout = async () => {
+        await Signout();
+        navigate('/');
     }
 
     useEffect(() => {
         fetchTopics();
     }, []);
 
+    const decode = (str) => {
+        const text = document.createElement('textarea');
+        text.innerHTML = str;
+        return text.value;
+    }
+
     const startGame = async () => {
         try {
-            const res = await axios.get(`/game/questions?topic=${currentTopic}&difficulty=${difficulty}`);
+            const res = await getQuestions(localStorage.getItem('token'), currentTopic, difficulty);
+            if (res.data.message) {
+                logout();
+            }
+
+            res.data.map(question => {
+                question.question = decode(question.question);
+                question.choices.forEach(choice => decode(choice));
+            });
+
             setQuestions(res.data);
             setGame(true);
-
         } catch (err) {
             console.log(err.message);
             alert('Error occured');
@@ -75,8 +95,10 @@ function Game() {
 
 
     if (game) return (
-        <div className='pt-[60px]'>
-            <Flashcards setGame={setGame} />
+        <div className='pt-[60px] space-y-4'>
+            {questions.map((question, index) => {
+                return <Flashcard question={question} key={index} />
+            })}
         </div>
     )
 }
