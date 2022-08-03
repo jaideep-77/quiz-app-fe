@@ -1,8 +1,6 @@
-import { async } from '@firebase/util';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Spinner from './Spinner';
 import Flashcard from './Flashcard';
 import { getQuestions, getTopics } from '../api/game';
@@ -18,14 +16,31 @@ function Game() {
     const [game, setGame] = useState(false);
     const navigate = useNavigate();
 
-    const fetchTopics = async () => {
-        const res = await getTopics(localStorage.getItem('token'));
-        if (res.data.message) {
+    const validateResponse = (res) => {
+        if (res.status == 403) {
+            alert('Not Authenticated');
             logout();
+            return false;
         }
-        console.log(res);
-        setTopics(res.data);
-        setCurrentTopic(res.data[0].id);
+
+        if (res.data.message) {
+            alert('Error occured');
+            navigate('/dashboard');
+            return false;
+        }
+        return true;
+    }
+
+    const fetchTopics = async () => {
+        try {
+            const res = await getTopics(localStorage.getItem('token'));
+            if (validateResponse(res)) {
+                setTopics(res.data);
+                setCurrentTopic(res.data[0].id);
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const logout = async () => {
@@ -34,7 +49,12 @@ function Game() {
     }
 
     useEffect(() => {
-        fetchTopics();
+        if (localStorage.getItem('questions')) {
+            setGame(true);
+            setQuestions(JSON.parse(localStorage.getItem('questions')));
+        } else {
+            fetchTopics();
+        }
     }, []);
 
     const decode = (str) => {
@@ -46,20 +66,19 @@ function Game() {
     const startGame = async () => {
         try {
             const res = await getQuestions(localStorage.getItem('token'), currentTopic, difficulty);
-            if (res.data.message) {
-                logout();
+
+            if (validateResponse(res)) {
+                res.data.map(question => {
+                    question.question = decode(question.question);
+                    question.choices.map(choice => decode(choice));
+                });
+
+                localStorage.setItem('questions', JSON.stringify(res.data));
+                setQuestions(res.data);
+                setGame(true);
             }
-
-            res.data.map(question => {
-                question.question = decode(question.question);
-                question.choices.forEach(choice => decode(choice));
-            });
-
-            setQuestions(res.data);
-            setGame(true);
         } catch (err) {
             console.log(err.message);
-            alert('Error occured');
         }
     }
 
@@ -71,7 +90,7 @@ function Game() {
 
             {!topics && <Spinner />}
 
-            {topics && <div className='flex flex-col items-center'>
+            {topics?.length > 0 && <div className='flex flex-col items-center'>
 
                 <span className='mt-10 text-base text-white md:text-xl'>Let's take a look at some of the topics available and select your desired difficulty</span>
 
@@ -97,7 +116,7 @@ function Game() {
     if (game) return (
         <div className='pt-[60px] space-y-4'>
             {questions.map((question, index) => {
-                return <Flashcard question={question} key={index} />
+                return <Flashcard key={`flashcard${index}`} question={question} />
             })}
         </div>
     )
